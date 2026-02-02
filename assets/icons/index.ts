@@ -1,0 +1,14 @@
+export { default as Add } from "./Add";
+export { default as AddCustomers } from "./AddCustomers";
+export { default as Calander } from "./Calander";
+export { default as Customers } from "./Customers";
+export { default as DashBoard } from "./DashBoard";
+export { default as Document } from "./Document";
+export { default as Info } from "./Info";
+export { default as NewFile } from "./NewFile";
+export { default as Notification } from "./Notification";
+export { default as PrintCopy } from "./PrintCopy";
+export { default as Print } from "./Print";
+export { default as Products } from "./Products";
+export { default as Reports } from "./Reports";
+export { default as Settings } from "./Settings";
