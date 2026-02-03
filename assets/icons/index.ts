@@ -7,7 +7,6 @@ export { default as Document } from "./Document";
 export { default as Info } from "./Info";
 export { default as NewFile } from "./NewFile";
 export { default as Notification } from "./Notification";
-export { default as PrintCopy } from "./PrintCopy";
 export { default as Print } from "./Print";
 export { default as Products } from "./Products";
 export { default as Reports } from "./Reports";

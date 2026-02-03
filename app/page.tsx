@@ -1,3 +1,4 @@
+import { Add } from "@/assets/icons";
 import Image from "next/image";
 
 export default function Home() {
