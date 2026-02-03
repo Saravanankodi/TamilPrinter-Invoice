@@ -1,11 +1,10 @@
-import { Add } from "@/assets/icons";
-import Image from "next/image";
+import Sidebar from "@/components/layout/Sidebar";
 
 export default function Home() {
   return (
     <>
     <section className="w-full h-full">
-      <h1 className="heading text-3xl">Hello World</h1>
+      <Sidebar/>
     </section>
     </>
   );
