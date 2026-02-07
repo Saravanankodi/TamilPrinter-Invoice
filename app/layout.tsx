@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Iceberg, Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
+
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
+const inter = Inter({
+  variable:"--font-inter",
+  subsets:["latin"],
+  weight:["400","500","600"]
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const iceberg = Iceberg({
+  weight:"400",
+  variable:"--heading",
 });
 
 export const metadata: Metadata = {
@@ -26,12 +36,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex justify-center gap-2`}
+        className={`${inter.variable} ${iceberg.variable} antialiased flex justify-center gap-2`}
       >
         <aside className="w-max">
           <Sidebar/>
         </aside>
-        <main className="w-full max-h-screen text-black bg-white">
+        <main className="w-full max-h-screen text-black p-4">
           {children}
         </main>
       </body>

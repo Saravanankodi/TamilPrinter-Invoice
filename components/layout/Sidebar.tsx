@@ -7,11 +7,11 @@ import NavLink from '../base/NavLink';
 const Sidebar = () => {
   // const [isCollapsed,setIsCollapsed] = useState(false);
   const links = [
-    {href:"/",icon:<DashBoard/>,lable:"Dashboard",exact:true},
-    {href:"/new-bill",icon:<NewFile/>,lable:"New Bill"},
-    {href:"/products",icon:<Products/>,lable:"Products"},
-    {href:"/customers",icon:<Customers/>,lable:"Customers"},
-    {href:"/reports",icon:<Reports/>,lable:"Reports"},
+    {href:"/",icon:<DashBoard/>,label:"Dashboard",exact:true},
+    {href:"/new-bill",icon:<NewFile/>,label:"New Bill"},
+    {href:"/products",icon:<Products/>,label:"Products"},
+    {href:"/customers",icon:<Customers/>,label:"Customers"},
+    {href:"/reports",icon:<Reports/>,label:"Reports"},
   ]
   return (
     <>
@@ -31,7 +31,7 @@ const Sidebar = () => {
           {links.map((link)=>(
             <NavLink key={link.href}
               href={link.href}
-              lable={link.lable}
+              label={link.label}
               icon={link.icon}
             />
           ))}
