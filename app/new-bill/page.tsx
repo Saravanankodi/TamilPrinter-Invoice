@@ -1,3 +1,4 @@
+import AddBill from '@/components/form/AddBill'
 import CustomerDetails from '@/components/form/CustomerDetails'
 import React from 'react'
 
@@ -12,8 +13,8 @@ const NewBill = () => {
         <div className="w-auto col-span-3 ">
           <CustomerDetails/>
         </div>
-        <div className="col-span-3 row-span-2 bg-white h-auto w-full ">
-
+        <div className="col-span-3 row-span-2 ">
+          <AddBill/>
         </div>
         <div className="row-span-3 col-span-2 row-start-1 col-start-4 bg-white h-full w-full ">
 
