@@ -1,6 +1,7 @@
 import AddBill from '@/components/form/AddBill'
 import CustomerDetails from '@/components/form/CustomerDetails'
-import React from 'react'
+import Invoice from '@/components/layout/Invoice'
+
 
 const NewBill = () => {
   return (
@@ -16,8 +17,8 @@ const NewBill = () => {
         <div className="col-span-3 row-span-2 ">
           <AddBill/>
         </div>
-        <div className="row-span-3 col-span-2 row-start-1 col-start-4 bg-white h-full w-full ">
-
+        <div className="row-span-3 col-span-2 row-start-1 col-start-4 ">
+          <Invoice/>
         </div>
       </main>
     </section>

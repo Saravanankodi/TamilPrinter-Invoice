@@ -36,3 +36,7 @@ export type RadioItemProps ={
     label:string;
     className?:string;
 }
+export type LableProps = {
+    Name:string;
+    value: string | number;
+}

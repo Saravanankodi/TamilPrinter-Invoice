@@ -12,7 +12,7 @@ const Input = ({label,className, ...props}:InputProps) => {
                 </label>
             )
             }
-            <input className='bg-[#F8FAFC] max-h-10 w-full max-w-75  outline-none border-[1px_solid_#00000014] text-sm p-2 rounded-md ' {...props} />
+            <input className='bg-[#F8FAFC] max-h-10 w-full max-w-75  outline-none border border-[#00000014] text-sm p-2 rounded-md ' {...props} />
     </div>
     </>
   )
