@@ -9,6 +9,25 @@ import AddRounded from '@/assets/icons/AddRounded';
 
 const AddBill = () => {
     const [value,setValue] = useState("");
+    const [quantity,setQuantity] = useState<number>(0);
+
+    const increment = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setQuantity((prev) => prev + 1);
+      };
+      
+    
+      const decrement = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setQuantity((prev) => (prev > 0 ? prev - 1 : 0)); // prevent negative
+      };
+    
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        const val = Number(e.target.value);
+        setQuantity(val >= 0 ? val : 0);
+      };
+
   return (
     <>
     <section className="w-full h-full p-2 bg-white rounded-lg ">
@@ -29,7 +48,21 @@ const AddBill = () => {
                 <RadioGroup.Item value='Scan' label='Scan'/>
             </RadioGroup>
             <div className="flex gap-4">
-                <Input label='Quantity' type='number' />
+                <div className="w-auto flex items-end justify-center gap-2">
+                    <button
+                        onClick={decrement}
+                        className="px-4 py-2 bg-[#F8FAFC] max-h-10 outline-none border border-[#00000014] text-sm rounded-md "
+                    >
+                        -
+                    </button>
+                    <Input label='Quantity' type='number' value={quantity} onChange={handleChange} />
+                    <button
+                        onClick={increment}
+                        className="px-4 py-2 bg-[#F8FAFC] max-h-10  outline-none border border-[#00000014] text-sm rounded-md "
+                    >
+                        +
+                    </button>
+                </div>
                 <Input label='Page' type='number' />
                 <Input label='Paper' type='number' />
                 <Input label='Rate (per unit)' type='number' />
