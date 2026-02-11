@@ -35,8 +35,16 @@ export type RadioItemProps ={
     value:string;
     label:string;
     className?:string;
+    icon?:React.ReactNode;
 }
 export type LableProps = {
     Name:string;
     value: string | number;
+}
+export type ButtonPros = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    children:ReactNode;
+    icon?:React.ReactNode;
+    variant?: "primary" | "secondary" | "outline";
+    size?: "sm" | "md" | "lg";
+    loading?: boolean;
 }

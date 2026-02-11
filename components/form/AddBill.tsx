@@ -4,12 +4,14 @@ import React, { useState } from 'react'
 import { RadioGroup } from '../base/RadioGroups'
 import Input from '../base/Input';
 import Lable from '../ui/Lable';
+import Button from '../base/Button';
+import AddRounded from '@/assets/icons/AddRounded';
 
 const AddBill = () => {
     const [value,setValue] = useState("");
   return (
     <>
-    <section className="w-full h-auto p-2 bg-white rounded-lg ">
+    <section className="w-full h-full p-2 bg-white rounded-lg ">
         <header className="w-full h-auto max-h-15 flex items-center justify-between p-2 border-b border-b-[#00000014]">
             <h1 className="text-base">
                 Add Items
@@ -32,6 +34,9 @@ const AddBill = () => {
                 <Input label='Paper' type='number' />
                 <Input label='Rate (per unit)' type='number' />
             </div>
+            <Button icon={<AddRounded/>} className='w-full font-semibold' variant='secondary'>
+                Add To Bill
+            </Button>
         </form>
     </section>
     </>

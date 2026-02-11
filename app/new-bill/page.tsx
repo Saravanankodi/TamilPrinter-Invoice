@@ -6,7 +6,7 @@ import Invoice from '@/components/layout/Invoice'
 const NewBill = () => {
   return (
     <>
-    <section className="w-full h-fit ">
+    <section className="w-full h-max max-h-screen ">
       <header className="w-full h-18 bg-white">
 
       </header>
