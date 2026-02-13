@@ -41,7 +41,7 @@ export default function RootLayout({
         <aside className="w-max">
           <Sidebar/>
         </aside>
-        <main className="w-full max-h-screen text-black p-4">
+        <main className="w-full max-h-screen">
           {children}
         </main>
       </body>
