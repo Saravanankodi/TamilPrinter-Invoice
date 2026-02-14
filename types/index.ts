@@ -48,3 +48,12 @@ export type ButtonPros = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     size?: "sm" | "md" | "lg";
     loading?: boolean;
 }
+export type Option ={
+    label:string;
+    value:string;
+}
+export type DropdownProps ={
+    name:string;
+    option: Option[];
+    onChange:(value:string)=> void;
+}

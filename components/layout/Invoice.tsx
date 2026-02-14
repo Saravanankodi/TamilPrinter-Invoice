@@ -79,7 +79,7 @@ const Invoice = () => {
                 </tbody>
                 </Table>
 
-                <RadioGroup value={value} onValueChange={setValue} name='serviceType' className='w-full h-auto flex items-center justify-center text-sm' >
+                <RadioGroup value={value} onValueChange={setValue} name='serviceType' className='w-full h-auto flex items-center justify-center gap-2 text-sm' >
                     <RadioGroup.Item value='Cash' label='Cash' icon={<Cash/>} />
                     <RadioGroup.Item value='UPI / QR' label='UPI / QR' icon={<Upi/>} />
                     <RadioGroup.Item value='Card' label='Card' icon={<Card/>}/>

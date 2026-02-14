@@ -33,7 +33,7 @@ function RadioGroupItem({
           border  rounded-md 
           transition
           ${checked ? " bg-[#0496ff] text-white" : "bg-[#F2F4F6] border-gray-300"}
-          ${icon ? "px-2 py-1" :"px-4 py-3"}
+          ${icon ? "px-2 py-1" :"px-4 py-2.5"}
         `}
       >
         {/* hidden real radio */}

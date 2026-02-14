@@ -3,7 +3,8 @@
 import { DropdownProps, Option } from '@/types'
 import React, { useState } from 'react'
 
-const Dropdown = ({option,onChange}:DropdownProps) => {
+
+const Dropdown = ({name,option,onChange}:DropdownProps) => {
     const [open,setOpen] = useState(false);
     const [select,setSelect] = useState<Option | null>(null)
 
@@ -16,10 +17,14 @@ const Dropdown = ({option,onChange}:DropdownProps) => {
   return (
     <>
     <div className="relative w-64">
+      <p className="text-sm">
+        {name}
+      </p>
       <button
+        type='button'
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between rounded-md border
-                   border-gray-300 bg-white px-4 py-2 text-sm shadow-sm"
+        className="flex w-full items-center justify-between rounded-md border border-[#00000014]
+                   bg-[#FAFBFC] px-4 py-2 text-sm shadow-sm"
       >
         {select ? select.label : "Select an option"}
         <span className="ml-2">▾</span>

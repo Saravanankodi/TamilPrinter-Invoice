@@ -6,11 +6,16 @@ import Input from '../base/Input';
 import Lable from '../ui/Lable';
 import Button from '../base/Button';
 import AddRounded from '@/assets/icons/AddRounded';
+import Dropdown from '../base/Dropdown';
 
 const AddBill = () => {
     const [value,setValue] = useState("");
     const [quantity,setQuantity] = useState<number>(0);
-
+    const [,setSelect]=useState("");
+    const options = [
+        { label: "Front-only", value: "front" },
+        { label: "Front & Back", value: "frontAndBack" },
+      ];
     const increment = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setQuantity((prev) => prev + 1);
@@ -37,7 +42,7 @@ const AddBill = () => {
             </h1>
             <button className='text-sm text-[#0496ff]  ' >Reset Form</button>
         </header>
-        <form action="" className='h-full p-2 space-y-2'>
+        <form action="" className='h-max p-2 space-y-2'>
             <Lable Name='Service Type' value={value}/>
             <RadioGroup value={value} onValueChange={setValue} name='serviceType' className='w-full h-auto flex gap-2 text-sm' >
                 <RadioGroup.Item value='A4 Color' label='A4 Color'/>
@@ -67,7 +72,13 @@ const AddBill = () => {
                 <Input label='Paper' type='number' />
                 <Input label='Rate (per unit)' type='number' />
             </div>
-            <Button icon={<AddRounded/>} className='w-full font-semibold' variant='secondary'>
+
+            <div className="flex items-end gap-3">
+                <Dropdown name='Print Type' option={options} onChange={(value)=>setSelect(value)}/>
+                <Input label='Notes (Optional)' placeholder='Add specific instructions...'/>
+            </div>
+
+            <Button type='submit' icon={<AddRounded/>} className='w-full font-semibold' variant='secondary'>
                 Add To Bill
             </Button>
         </form>
