@@ -35,14 +35,16 @@ export type RadioItemProps ={
     value:string;
     label:string;
     className?:string;
+    icon?:React.ReactNode;
 }
-
-export type Option ={
-    label:string;
-    value:string;
+export type LableProps = {
+    Name:string;
+    value: string | number;
 }
-export type DropdownProps ={
-    option:Option[];
-    value:string;
-    onChange:(value:string)=>void;
+export type ButtonPros = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    children:ReactNode;
+    icon?:React.ReactNode;
+    variant?: "primary" | "secondary" | "outline";
+    size?: "sm" | "md" | "lg";
+    loading?: boolean;
 }

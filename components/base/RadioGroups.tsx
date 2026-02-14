@@ -16,6 +16,7 @@ function RadioGroupRoot({value,onValueChange,name='radio-group',children,classNa
 function RadioGroupItem({
     value,
     label,
+    icon,
   }: RadioItemProps) {
     const ctx = useContext(RadioGroupContext);
   
@@ -28,10 +29,11 @@ function RadioGroupItem({
     return (
       <label
         className={`
-          flex items-center gap-3 cursor-pointer select-none
-          border px-4 py-3 rounded-md
+          flex items-center gap-2 cursor-pointer select-none
+          border  rounded-md 
           transition
           ${checked ? " bg-[#0496ff] text-white" : "bg-[#F2F4F6] border-gray-300"}
+          ${icon ? "px-2 py-1" :"px-4 py-3"}
         `}
       >
         {/* hidden real radio */}
@@ -43,17 +45,11 @@ function RadioGroupItem({
           onChange={() => ctx.onValueChange(value)}
           className="sr-only"
         />
-  
-        {/* custom indicator (square)
-        <span
-          className={`
-            w-4 h-4 border rounded-sm flex items-center justify-center
-            ${checked ? "bg-white" : "bg-transparent"}
-          `}
-        >
-          {checked && <span className="w-2 h-2 bg-black" />}
-        </span> */}
-  
+        {icon && (
+          <span className="w-8 h-8 p-1">
+            {icon}
+          </span> 
+        )} 
         <span>{label}</span>
       </label>
     );
