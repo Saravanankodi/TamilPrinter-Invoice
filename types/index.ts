@@ -36,3 +36,13 @@ export type RadioItemProps ={
     label:string;
     className?:string;
 }
+
+export type Option ={
+    label:string;
+    value:string;
+}
+export type DropdownProps ={
+    option:Option[];
+    value:string;
+    onChange:(value:string)=>void;
+}

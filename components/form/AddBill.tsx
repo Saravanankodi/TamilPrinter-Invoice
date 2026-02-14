@@ -3,9 +3,16 @@
 import React, { useState } from 'react'
 import { RadioGroup } from '../base/RadioGroups'
 import Input from '../base/Input';
+import Dropdown from '../base/Dropdown';
 
 const AddBill = () => {
     const [value,setValue] = useState("");
+
+    const options =[
+        {label:"front",value:"front"},
+        {label:"front-back",value:"front-back"},
+    ]
+    const [print,setPrint] = useState("");
   return (
     <>
     <section className="w-full h-auto p-2 bg-white rounded-lg ">
@@ -29,6 +36,9 @@ const AddBill = () => {
                 <Input label='Page' type='number' />
                 <Input label='Paper' type='number' />
                 <Input label='Rate (per unit)' type='number' />
+            </div>
+            <div className="w-full">
+                <Dropdown option={options} value={print} onChange={setPrint}/>
             </div>
         </form>
     </section>
