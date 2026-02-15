@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Lable from '../ui/Lable'
 import Table from './Table'
 import { RadioGroup } from '../base/RadioGroups'
@@ -10,6 +10,16 @@ import { InvoiceProps } from '@/types';
 
 const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
         const [value,setValue] = useState("");
+        const [currentTime, setCurrentTime] = useState(new Date());
+
+        useEffect(() => {
+          const timer = setInterval(() => {
+            setCurrentTime(new Date()); // update every second
+          }, 1000);
+      
+          return () => clearInterval(timer); // cleanup on unmount
+        }, []);
+
   return (
     <>
     <section className="w-full h-full rounded-lg bg-white p-1 ">
@@ -30,10 +40,10 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
                 </p>
                 <div className="w-auto">
                     <p className="text-sm">
-                        02.02.2026
+                        {currentTime.toLocaleDateString()}
                     </p>
                     <p className="text-sm">
-                        10.00PM
+                        {currentTime.toLocaleTimeString()}
                     </p>
                 </div>
             </aside>
