@@ -3,6 +3,15 @@ import path from "path";
 import { ipcMain } from "electron";
 import { db } from "./database";
 
+type BillRow = {
+  id: number;
+  customer_id: number;
+  bill_number: string;
+  customer_name: string;
+  created_at: string;
+  total: number;
+  payment_method: string | null;
+};
 
 ipcMain.handle("save-bill", (_, payload) => {
   const { customer, items, paymentMethod } = payload;
@@ -73,29 +82,7 @@ ipcMain.handle("save-bill", (_, payload) => {
   return { success: true, billNumber };
 });
 
-ipcMain.handle("get-bills", () => {
-  return db.prepare(`
-    SELECT
-      bills.id,
-      bills.bill_number,
-      bills.total,
-      bills.created_at,
-      customers.name,
-      customers.phone
-    FROM bills
-    JOIN customers ON customers.id = bills.customer_id
-    ORDER BY bills.id DESC
-  `).all();
-});
-
 ipcMain.handle("get-bill-details", (_, billId: number) => {
-  type BillRow = {
-    id: number;
-    customer_id: number;
-    bill_number: string;
-    total: number;
-    created_at: string;
-  };
 
   const stmt = db.prepare(`
     SELECT * FROM bills WHERE id = ?
@@ -117,6 +104,49 @@ ipcMain.handle("get-bill-details", (_, billId: number) => {
 
   return { bill, items, customer };
 });
+
+ipcMain.handle("get-bills", () => {
+  const stmt = db.prepare(`
+    SELECT 
+      b.id,
+      b.customer_id,
+      b.bill_number,
+      c.name AS customer_name,
+      b.created_at,
+      b.total,
+      p.method AS payment_method
+    FROM bills b
+    LEFT JOIN customers c ON c.id = b.customer_id
+    LEFT JOIN payments p ON p.bill_id = b.id
+    ORDER BY b.created_at DESC
+  `);
+  
+  const bills = stmt.all() as BillRow[];
+  
+
+
+  // Compute status based on payment method
+  const billsWithStatus = bills.map(bill => {
+    let status = "Pending"; // default
+
+    if (bill.payment_method?.toLowerCase() === "cash" ||
+        bill.payment_method?.toLowerCase() === "card" ||
+        bill.payment_method?.toLowerCase() === "upi") {
+      status = "Paid";
+    }
+
+    return {
+      ...bill,
+      status
+    };
+  });
+
+  return billsWithStatus;
+});
+
+
+
+
 
 let mainWindow: BrowserWindow;
 

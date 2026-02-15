@@ -10,15 +10,22 @@ const RecentInvoice = () => {
     const [bills, setBills] = useState<any[]>([]);
 
     useEffect(() => {
-      window.api.getBills().then(setBills);
-    }, []);
+        const fetchBills = async () => {
+          if (window.api?.getBills) {
+            const data = await window.api.getBills();
+            setBills(data);
+          }
+        };
+        fetchBills();
+      }, []);
+      
       
   return (
     <>
     <section className="w-full h-full p-2">
         <header className="w-full flex items-center justify-between px-1 py-2 border-b border-[#00000014]">
             <h1 className="text-lg">Recent Invoices</h1>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => router.push("/invoice")} >
                 View All
             </Button>
         </header>

@@ -6,6 +6,7 @@ declare global {
       saveBill: (data: any) => Promise<any>;
       getBills: () => Promise<any[]>;
       getBillDetails: (id: number) => Promise<any>;
+      exportBills?: () => void;
     };
   }
 }
