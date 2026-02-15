@@ -6,8 +6,9 @@ import { RadioGroup } from '../base/RadioGroups'
 import Cash from '@/assets/icons/Cash';
 import Upi from '@/assets/icons/Upi';
 import Card from '@/assets/icons/Card';
+import { InvoiceProps } from '@/types';
 
-const Invoice = () => {
+const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
         const [value,setValue] = useState("");
   return (
     <>
@@ -45,37 +46,15 @@ const Invoice = () => {
             <section className='text-xs space-y-2'>
                 <Table>
                 <tbody>
-                <Table.Row>
-                    <Table.Th>Item</Table.Th>
-                    <Table.Th>Qty</Table.Th>
-                    <Table.Th>Rate</Table.Th>
-                    <Table.Th>Amount</Table.Th>
+                    <Table.Row>
+                        <Table.Th>Item</Table.Th>
+                        <Table.Th>Qty</Table.Th>
+                        <Table.Th>Rate</Table.Th>
+                        <Table.Th>Amount</Table.Th>
                     </Table.Row>
 
-                    <Table.Row>
-                    <Table.Cell>A4 Printout (B/W)</Table.Cell>
-                    <Table.Cell>50</Table.Cell>
-                    <Table.Cell>2.00</Table.Cell>
-                    <Table.Cell>100.00</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                    <Table.Cell>A4 Printout (B/W)</Table.Cell>
-                    <Table.Cell>50</Table.Cell>
-                    <Table.Cell>2.00</Table.Cell>
-                    <Table.Cell>100.00</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                    <Table.Cell>A4 Printout (B/W)</Table.Cell>
-                    <Table.Cell>50</Table.Cell>
-                    <Table.Cell>2.00</Table.Cell>
-                    <Table.Cell>100.00</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                    <Table.Cell>A4 Printout (B/W)</Table.Cell>
-                    <Table.Cell>50</Table.Cell>
-                    <Table.Cell>2.00</Table.Cell>
-                    <Table.Cell>100.00</Table.Cell>
-                    </Table.Row>
+                    {}
+                    
                 </tbody>
                 </Table>
 

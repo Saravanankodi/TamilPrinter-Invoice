@@ -61,13 +61,13 @@ export type customerData ={
     data:{
         name: string;
         mail:string;
-        phone:number;
+        phone:string;
         ref:string;
     };
     setData:React.Dispatch<React.SetStateAction<{
         name: string;
         mail:string;
-        phone:number;
+        phone:string;
         ref:string;
     }>
     >;
@@ -80,7 +80,7 @@ export type billData={
         page:number;
         rate:number;
         print:string;
-        note?:string;
+        note:string;
     };
     setData:React.Dispatch<React.SetStateAction<{
         service:string;
@@ -89,7 +89,26 @@ export type billData={
         page:number;
         rate:number;
         print:string;
-        note?:string;
+        note:string;
     }>
     >;
 }
+export interface CustomerData {
+    name: string;
+    mail: string;
+    phone: string;
+    ref: string;
+  }
+  export interface BillData {
+    service: string;
+    quantity: number;
+    paper: number;
+    page: number;
+    rate: number;
+    print: string;
+    note: string;
+  }
+export interface InvoiceProps {
+    customerData: CustomerData;
+    billData: BillData;
+  }

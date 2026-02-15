@@ -9,9 +9,20 @@ const NewBill = () => {
   const [customerData,setCustomerData]=useState({
     name:"",
     mail:"",
-    phone:Number(),
+    phone:"",
     ref:""
   });
+
+  const [billData,setBillData] = useState({
+      service:"",
+      quantity:0,
+      paper:0,
+      page:0,
+      rate:0,
+      print:"",
+      note:""
+  })
+
   return (
     <>
     <section className="w-full h-max max-h-screen ">
@@ -47,7 +58,7 @@ const NewBill = () => {
           <CustomerDetails data={customerData} setData={setCustomerData} />
         </div>
         <div className="col-span-3 row-span-2 ">
-          <AddBill/>
+          <AddBill data={billData} setData={setBillData}/>
         </div>
         <div className="row-span-3 col-span-2 row-start-1 col-start-4 ">
           <Invoice/>
