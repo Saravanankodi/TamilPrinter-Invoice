@@ -6,6 +6,6 @@ contextBridge.exposeInMainWorld("api", {
   getBills: () => 
     ipcRenderer.invoke("get-bills"),
   getBillDetails: (id: number) =>
-    ipcRenderer.invoke("get-bill-details", id),
+      ipcRenderer.invoke("get-bill-details", id),
 
 });

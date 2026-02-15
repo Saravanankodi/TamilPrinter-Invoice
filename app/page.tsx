@@ -1,6 +1,7 @@
 import { Notification } from "@/assets/icons";
 import Card from "@/components/layout/Card";
 import Header from "@/components/layout/Header";
+import RecentInvoice from "@/components/ui/tables/RecentInvoice";
 
 export default function Home() {
   return (
@@ -47,7 +48,10 @@ export default function Home() {
           label="Today's Revenue"
           value={"$142.50"}
           disc="+12% from yesterday"/>
+
+          
       </main>
+      <RecentInvoice/>
     </section>
     </>
   );

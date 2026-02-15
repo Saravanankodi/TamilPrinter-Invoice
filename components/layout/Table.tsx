@@ -2,6 +2,7 @@ import React from "react";
 
 type Props = {
   children: React.ReactNode;
+  onClick?: ()=> void;
 };
 
 export default function Table({ children }: Props) {
@@ -20,9 +21,9 @@ Table.Head = function TableHead({ children }: Props) {
   );
 };
 
-Table.Row = function TableRow({ children }: Props) {
+Table.Row = function TableRow({ children,onClick }: Props) {
   return (
-    <tr className="border-b border-[#00000014]">
+    <tr className="border-b border-[#00000014]" onClick={onClick}>
       {children}
     </tr>
   );

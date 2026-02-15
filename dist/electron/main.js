@@ -74,6 +74,36 @@ electron_2.ipcMain.handle("save-bill", (_, payload) => {
   `).run(billId, paymentMethod, total);
     return { success: true, billNumber };
 });
+electron_2.ipcMain.handle("get-bills", () => {
+    return database_1.db.prepare(`
+    SELECT
+      bills.id,
+      bills.bill_number,
+      bills.total,
+      bills.created_at,
+      customers.name,
+      customers.phone
+    FROM bills
+    JOIN customers ON customers.id = bills.customer_id
+    ORDER BY bills.id DESC
+  `).all();
+});
+electron_2.ipcMain.handle("get-bill-details", (_, billId) => {
+    const stmt = database_1.db.prepare(`
+    SELECT * FROM bills WHERE id = ?
+  `);
+    const bill = stmt.get(billId);
+    if (!bill) {
+        return null;
+    }
+    const items = database_1.db
+        .prepare(`SELECT * FROM bill_items WHERE bill_id = ?`)
+        .all(billId);
+    const customer = database_1.db
+        .prepare(`SELECT * FROM customers WHERE id = ?`)
+        .get(bill.customer_id);
+    return { bill, items, customer };
+});
 let mainWindow;
 function createWindow() {
     const mainWindow = new electron_1.BrowserWindow({

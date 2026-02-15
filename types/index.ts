@@ -97,3 +97,11 @@ export interface InvoiceProps {
     billData: BillData[];
     onSaved: () => void;
   }
+export type Bill = {
+    id: number;
+    bill_number: string;
+    total: number;
+    created_at: string;
+    name: string;
+    phone: string;
+  };

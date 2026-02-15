@@ -88,18 +88,32 @@ ipcMain.handle("get-bills", () => {
   `).all();
 });
 
-ipcMain.handle("get-bill-details", (_, billId) => {
-  const bill = db.prepare(`
+ipcMain.handle("get-bill-details", (_, billId: number) => {
+  type BillRow = {
+    id: number;
+    customer_id: number;
+    bill_number: string;
+    total: number;
+    created_at: string;
+  };
+
+  const stmt = db.prepare(`
     SELECT * FROM bills WHERE id = ?
-  `).get(billId);
+  `);
 
-  const items = db.prepare(`
-    SELECT * FROM bill_items WHERE bill_id = ?
-  `).all(billId);
+  const bill = stmt.get(billId) as BillRow | undefined;
 
-  const customer = db.prepare(`
-    SELECT * FROM customers WHERE id = ?
-  `).get(bill.customer_id);
+  if (!bill) {
+    return null;
+  }
+
+  const items = db
+    .prepare(`SELECT * FROM bill_items WHERE bill_id = ?`)
+    .all(billId);
+
+  const customer = db
+    .prepare(`SELECT * FROM customers WHERE id = ?`)
+    .get(bill.customer_id);
 
   return { bill, items, customer };
 });
