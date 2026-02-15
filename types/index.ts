@@ -57,3 +57,39 @@ export type DropdownProps ={
     option: Option[];
     onChange:(value:string)=> void;
 }
+export type customerData ={
+    data:{
+        name: string;
+        mail:string;
+        phone:number;
+        ref:string;
+    };
+    setData:React.Dispatch<React.SetStateAction<{
+        name: string;
+        mail:string;
+        phone:number;
+        ref:string;
+    }>
+    >;
+}
+export type billData={
+    data:{
+        service:string;
+        quantity:number;
+        paper:number;
+        page:number;
+        rate:number;
+        print:string;
+        note?:string;
+    };
+    setData:React.Dispatch<React.SetStateAction<{
+        service:string;
+        quantity:number;
+        paper:number;
+        page:number;
+        rate:number;
+        print:string;
+        note?:string;
+    }>
+    >;
+}

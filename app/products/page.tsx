@@ -1,4 +1,5 @@
 import { Calander, Notification } from '@/assets/icons'
+import Table from '@/components/layout/Table'
 import React from 'react'
 
 const Products = () => {
@@ -29,6 +30,39 @@ const Products = () => {
           </div>
         </div>
       </header>
+      <main className="w-full h-max p-2">
+        <Table>
+          <Table.Head>
+            <Table.Row>
+              <Table.Th>
+                  Product Name
+              </Table.Th>
+              <Table.Th>
+                  Category
+              </Table.Th>
+              <Table.Th>
+                  Pricing Model
+              </Table.Th>
+              <Table.Th>
+                Rate / Price
+              </Table.Th>
+              <Table.Th>
+                Status
+              </Table.Th>
+              <Table.Th>
+                Actions
+              </Table.Th>
+            </Table.Row>
+          </Table.Head>
+          <tbody>
+            <Table.Row>
+              <Table.Cell>
+              Paper Box(A4)
+              </Table.Cell>
+            </Table.Row>
+          </tbody>
+        </Table>
+      </main>
     </section>
     </>
   )

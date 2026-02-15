@@ -42,7 +42,7 @@ const AddBill = () => {
             </h1>
             <button className='text-sm text-[#0496ff]  ' >Reset Form</button>
         </header>
-        <form action="" className='h-max p-2 space-y-2'>
+        <form action="" className='h-max  p-2 space-y-2'>
             <Lable Name='Service Type' value={value}/>
             <RadioGroup value={value} onValueChange={setValue} name='serviceType' className='w-full h-auto flex gap-2 text-sm' >
                 <RadioGroup.Item value='A4 Color' label='A4 Color'/>

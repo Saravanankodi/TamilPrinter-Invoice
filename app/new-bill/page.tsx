@@ -1,9 +1,17 @@
+"use client"
 import AddBill from '@/components/form/AddBill'
 import CustomerDetails from '@/components/form/CustomerDetails'
 import Invoice from '@/components/layout/Invoice'
+import { useState } from 'react'
 
 
 const NewBill = () => {
+  const [customerData,setCustomerData]=useState({
+    name:"",
+    mail:"",
+    phone:Number(),
+    ref:""
+  });
   return (
     <>
     <section className="w-full h-max max-h-screen ">
@@ -36,7 +44,7 @@ const NewBill = () => {
       </header>
       <main className="w-full h-full grid grid-cols-5 grid-rows-3 my-2 gap-2">
         <div className="w-auto col-span-3 ">
-          <CustomerDetails/>
+          <CustomerDetails data={customerData} setData={setCustomerData} />
         </div>
         <div className="col-span-3 row-span-2 ">
           <AddBill/>
