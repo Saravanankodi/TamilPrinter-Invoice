@@ -2,6 +2,7 @@
 import AddBill from '@/components/form/AddBill'
 import CustomerDetails from '@/components/form/CustomerDetails'
 import Invoice from '@/components/layout/Invoice'
+import { BillData } from '@/types'
 import { useState } from 'react'
 
 
@@ -13,15 +14,7 @@ const NewBill = () => {
     ref:""
   });
 
-  const [billData,setBillData] = useState({
-      service:"",
-      quantity:0,
-      paper:0,
-      page:0,
-      rate:0,
-      print:"",
-      note:""
-  })
+  const [billData, setBillData] = useState<BillData[]>([]);
 
   return (
     <>
@@ -61,7 +54,7 @@ const NewBill = () => {
           <AddBill data={billData} setData={setBillData}/>
         </div>
         <div className="row-span-3 col-span-2 row-start-1 col-start-4 ">
-          <Invoice/>
+          <Invoice customerData={customerData} billData={billData}/>
         </div>
       </main>
     </section>

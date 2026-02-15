@@ -73,25 +73,8 @@ export type customerData ={
     >;
 }
 export type billData={
-    data:{
-        service:string;
-        quantity:number;
-        paper:number;
-        page:number;
-        rate:number;
-        print:string;
-        note:string;
-    };
-    setData:React.Dispatch<React.SetStateAction<{
-        service:string;
-        quantity:number;
-        paper:number;
-        page:number;
-        rate:number;
-        print:string;
-        note:string;
-    }>
-    >;
+    data:BillData[];
+    setData:React.Dispatch<React.SetStateAction<BillData[]>>;
 }
 export interface CustomerData {
     name: string;
@@ -100,6 +83,7 @@ export interface CustomerData {
     ref: string;
   }
   export interface BillData {
+    id:string;
     service: string;
     quantity: number;
     paper: number;
@@ -110,5 +94,5 @@ export interface CustomerData {
   }
 export interface InvoiceProps {
     customerData: CustomerData;
-    billData: BillData;
+    billData: BillData[];
   }

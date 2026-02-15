@@ -38,10 +38,10 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
                 </div>
             </aside>
             <div className="grid grid-cols-2 grid-rows-2 gap-4 p-2">
-                <Lable Name='Service Type' value={'Hello'}/>
-                <Lable Name='Service Type' value={'Hello'}/>
-                <Lable Name='Service Type' value={'Hello'}/>
-                <Lable Name='Service Type' value={'Hello'}/>
+                <Lable Name='Customer Name' value={customerData.name}/>
+                <Lable Name='Phone' value={customerData.phone}/>
+                <Lable Name='Email' value={customerData.mail}/>
+                <Lable Name='Ref' value={customerData.ref}/>
             </div>
             <section className='text-xs space-y-2'>
                 <Table>
@@ -52,9 +52,22 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
                         <Table.Th>Rate</Table.Th>
                         <Table.Th>Amount</Table.Th>
                     </Table.Row>
-
-                    {}
-                    
+                    {Array.isArray(billData) && billData.map((data)=>(
+                        <Table.Row key={data.id}>
+                            <Table.Cell>
+                                {data.service}
+                            </Table.Cell>
+                            <Table.Cell>
+                                {data.quantity}
+                            </Table.Cell>
+                            <Table.Cell>
+                                {data.rate}
+                            </Table.Cell>
+                            <Table.Cell>
+                                {data.quantity * data.paper * data.rate}
+                            </Table.Cell>
+                        </Table.Row>
+                    ))}                    
                 </tbody>
                 </Table>
 

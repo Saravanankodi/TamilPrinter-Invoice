@@ -7,51 +7,59 @@ import Lable from '../ui/Lable';
 import Button from '../base/Button';
 import AddRounded from '@/assets/icons/AddRounded';
 import Dropdown from '../base/Dropdown';
-import { billData } from '@/types';
+import { BillData, billData } from '@/types';
 
 const AddBill = ({data,setData}:billData) => {
-    const [formData, setFormData] = useState({
-        service:"",
+    const [formData, setFormData] = useState<Omit<BillData, "id">>({
+        service: "",
         quantity: 0,
-        page: 0,
         paper: 0,
+        page: 0,
         rate: 0,
-        print:"",
-        note: "",
+        print: "",
+        note: ""
       });
+    
     const options = [
         { label: "Front-only", value: "front" },
         { label: "Front & Back", value: "frontAndBack" },
       ];
-    const increment = (e: React.MouseEvent<HTMLButtonElement>) => {
+      const increment = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        setData((prev) =>({...prev,quantity:prev.quantity + 1}));
+        setFormData(prev => ({ ...prev, quantity: prev.quantity + 1 }));
       };
       
-    
       const decrement = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        setData((prev)=>({...prev,quantity:prev.quantity > 0 ? prev.quantity - 1 : 0})) // prevent negative
+        setFormData(prev => ({
+          ...prev,
+          quantity: prev.quantity > 0 ? prev.quantity - 1 : 0
+        }));
       };
+      
     
       const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const val = Number(e.target.value);
-        setData((prev)=>({...prev,quantity:val >= 0 ? val : 0}))
+        setData((prev)=>({...prev,quantity:val >= 1 ? val : 0}))
       };
 
-      const handleSubmit = (e:React.FormEvent) =>{
+      const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setData(formData);
 
-        // setFormData({
-        //     quantity: 0,
-        //     page: 0,
-        //     paper: 0,
-        //     rate: 0,
-        //     note: "",
-        // });
-      }
+        setData(prev => [...prev, { ...formData, id: crypto.randomUUID() }]);
+
+        setFormData({
+          service: "",
+          quantity: 1,
+          paper: 0,
+          page: 0,
+          rate: 0,
+          print: "",
+          note: ""
+        });
+      };
+      
   return (
     <>
     <section className="w-full h-full p-2 bg-white rounded-lg ">
