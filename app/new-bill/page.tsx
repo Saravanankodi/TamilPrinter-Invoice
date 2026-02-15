@@ -6,6 +6,13 @@ import { BillData } from '@/types'
 import { useState } from 'react'
 
 
+const emptyCustomer = {
+  name: "",
+  mail: "",
+  phone: "",
+  ref: ""
+};
+
 const NewBill = () => {
   const [customerData,setCustomerData]=useState({
     name:"",
@@ -15,7 +22,10 @@ const NewBill = () => {
   });
 
   const [billData, setBillData] = useState<BillData[]>([]);
-
+  const resetForm = () => {
+    setCustomerData(emptyCustomer);
+    setBillData([]);
+  };
   return (
     <>
     <section className="w-full h-max max-h-screen ">
@@ -54,7 +64,7 @@ const NewBill = () => {
           <AddBill data={billData} setData={setBillData}/>
         </div>
         <div className="row-span-3 col-span-2 row-start-1 col-start-4 ">
-          <Invoice customerData={customerData} billData={billData}/>
+          <Invoice onSaved={resetForm} customerData={customerData} billData={billData}/>
         </div>
       </main>
     </section>

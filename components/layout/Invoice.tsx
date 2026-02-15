@@ -7,8 +7,10 @@ import Cash from '@/assets/icons/Cash';
 import Upi from '@/assets/icons/Upi';
 import Card from '@/assets/icons/Card';
 import { InvoiceProps } from '@/types';
+import Button from '../base/Button';
+import { Print } from '@/assets/icons';
 
-const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
+const Invoice: React.FC<InvoiceProps> = ({customerData,billData,onSaved}) => {
         const [value,setValue] = useState("");
         const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -20,6 +22,34 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
           return () => clearInterval(timer); // cleanup on unmount
         }, []);
 
+        const saveBill = async () => {
+            if (!billData || billData.length === 0) {
+              alert("No items in bill");
+              return;
+            }
+          
+            if (!value) {
+              alert("Select payment method");
+              return;
+            }
+          
+            try {
+              const result = await window.api.saveBill({
+                customer: customerData,
+                items: billData,
+                paymentMethod: value,
+              });
+          
+              alert("Bill saved: " + result.billNumber);
+              if (result?.success) {
+                onSaved(); // reset form
+                }
+            } catch (err) {
+              console.error(err);
+              alert("Failed to save bill");
+            }
+          };
+            
   return (
     <>
     <section className="w-full h-full rounded-lg bg-white p-1 ">
@@ -87,6 +117,10 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData}) => {
                     <RadioGroup.Item value='Card' label='Card' icon={<Card/>}/>
                     <RadioGroup.Item value='Pending' label='Pending'/>
                 </RadioGroup>
+
+                <Button variant='primary' icon={<Print className='w-6 h-6'/>} onClick={saveBill} className='w-4/5'>
+                    Generate & Print Invoice
+                </Button>
             </section>
         </main>
     </section>

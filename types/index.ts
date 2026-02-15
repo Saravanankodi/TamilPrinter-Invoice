@@ -16,7 +16,7 @@ export type CardProps ={
 }
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-    label:string;
+    label?:string;
     error?:string;
 }
 export type RadioGroupContextType = {
@@ -95,4 +95,5 @@ export interface CustomerData {
 export interface InvoiceProps {
     customerData: CustomerData;
     billData: BillData[];
+    onSaved: () => void;
   }

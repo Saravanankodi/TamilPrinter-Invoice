@@ -39,10 +39,12 @@ const AddBill = ({data,setData}:billData) => {
       
     
       const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
         const val = Number(e.target.value);
-        setData((prev)=>({...prev,quantity:val >= 1 ? val : 0}))
-      };
+        setFormData(prev => ({
+          ...prev,
+          quantity: val >= 1 ? val : 0
+        }));
+      };      
 
       const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

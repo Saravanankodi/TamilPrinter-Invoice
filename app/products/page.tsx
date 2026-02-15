@@ -1,7 +1,10 @@
 import { Calander, Notification } from '@/assets/icons'
 import Table from '@/components/layout/Table'
 import React from 'react'
-
+import { Add } from '@/assets/icons'
+import Filter from '@/assets/icons/Filter'
+import Button from '@/components/base/Button'
+import Input from '@/components/base/Input'
 const Products = () => {
   return (
     <>
@@ -31,6 +34,17 @@ const Products = () => {
         </div>
       </header>
       <main className="w-full h-max p-2">
+            <div className="w-full flex items-center justify-between">
+                <Input placeholder='Search products...' className='max-w-75'/>
+                <aside className="w-auto h-fit flex items-center gap-3">
+                    <Button variant='outline' icon ={<Filter className='w-6 h-6'/>}>
+                        Filter
+                    </Button>
+                    <Button variant='primary' icon={<Add/>} >
+                        Add New Product
+                    </Button>
+                </aside>
+            </div>
         <Table>
           <Table.Head>
             <Table.Row>
