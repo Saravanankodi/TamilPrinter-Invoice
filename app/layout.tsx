@@ -38,7 +38,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${iceberg.variable} antialiased flex justify-center gap-2`}
       >
-        <aside className="w-max">
+        <aside className="w-max h-screen sticky top-0 left-0">
           <Sidebar/>
         </aside>
         <main className="w-full max-h-screen">

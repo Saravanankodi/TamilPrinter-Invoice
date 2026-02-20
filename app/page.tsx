@@ -6,8 +6,8 @@ import RecentInvoice from "@/components/ui/tables/RecentInvoice";
 export default function Home() {
   return (
     <>
-    <section className="w-full h-full max-h-screen text-black">
-      <header className="w-full p-2 flex items-center justify-between bg-white border border-[#00000014]">
+    <section className="w-full h-full max-h-svh  flex flex-col gap-1 text-black">
+      <header className="w-full h-min p-2 flex items-center justify-between bg-white border border-[#00000014]">
         <aside className="w-fit h-full">
           <h1 className="text-[20px]">
             Dashboard
@@ -49,44 +49,43 @@ export default function Home() {
           value={"$142.50"}
           disc="+12% from yesterday"/>
       </div>
-      <main className="w-full h-full max-h-[74vh] grid grid-cols-8 grid-rows-4 gap-6 p-4 ">
-        <div className="w-full col-span-5 row-span-4 col-start-1 row-start-1 bg-white rounded-md">
+      <main className="w-full flex-1 grid grid-cols-8 grid-rows-4 gap-4 overflow-hidden pb-4">
           <RecentInvoice/>
-        </div>
         <div className="w-full h-full bg-white rounded-md col-span-3 row-span-2 col-start-6 row-start-1">
           <header className="w-full h-auto px-2 py-3 border-b border-[#00000014] ">
             <h1 className="text-lg">Quick Actions</h1>
           </header>
-          <aside className="w-full h-fit p-4">
-            <div className="flex items-center gap-5 border border-[#00000014] p-4 rounded-lg">
-              <div className="w-fit h-fit p-3 rounded-md bg-[#0496ff]">
-                <Add className="w-10 h-10 text-white"/>
+          <div className=" h-fit flex flex-col gap-2 items-center justify-center p-1">
+            <aside className="w-full h-fit flex-1">
+              <div className="flex items-center gap-5 border border-[#00000014] p-2 rounded-lg">
+                <div className="w-fit h-fit p-1 rounded-md bg-[#0496ff]">
+                  <Add className="w-6 h-6 text-white"/>
+                </div>
+                <div className="w-auto">
+                  <span className="text-base">New Bill</span>
+                  <p className="text-sm">Create invoice for customer</p>
+                </div>
               </div>
-              <div className="w-auto">
-                <span className="text-base">New Bill</span>
-                <p className="text-sm">Create invoice for customer</p>
+            </aside>
+            <aside className="w-full h-fit flex-1">
+              <div className="flex items-center gap-5 border border-[#00000014] p-2 rounded-lg">
+                <div className="w-fit h-fit p-1 rounded-md bg-[#F1F5F9]">
+                  <Customers className="w-6 h-6 text-black"/>
+                </div>
+                <div className="w-auto">
+                  <span className="text-base">Add Customer</span>
+                  <p className="text-sm">Register new client</p>
+                </div>
               </div>
-            </div>
-          </aside>
-          <aside className="w-full h-fit p-4">
-            <div className="flex items-center gap-5 border border-[#00000014] p-4 rounded-lg">
-              <div className="w-fit h-fit p-3 rounded-md bg-[#F1F5F9]">
-                <Customers className="w-10 h-10 text-black"/>
-              </div>
-              <div className="w-auto">
-                <span className="text-base">Add Customer</span>
-                <p className="text-sm">Register new client</p>
-              </div>
-            </div>
-          </aside>
+            </aside>
+          </div>
         </div>
         <div className="w-full h-full bg-white rounded-md col-span-3 row-span-2 col-start-6 row-start-3">
           <header className="w-full h-auto px-2 py-3 border-b border-[#00000014] ">
             <h1 className="text-lg">Stock Alerts</h1>
           </header>
         </div>
-      </main>
-        
+      </main>     
     </section>
     </>
   );

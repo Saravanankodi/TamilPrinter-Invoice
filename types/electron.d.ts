@@ -7,6 +7,8 @@ declare global {
       getBills: () => Promise<any[]>;
       getBillDetails: (id: number) => Promise<any>;
       exportBills?: () => void;
+      getCustomers: () => Promise<any[]>;
+      addCustomer: (customer: any) => Promise<{ id: number }>;
     };
   }
 }

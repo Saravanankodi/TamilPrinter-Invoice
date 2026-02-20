@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently \"next dev\" \"npm:electron\"",
     "electron": "wait-on http://localhost:3000 && electron .",
+    "build:electron": "tsc -p tsconfig.electron.json",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

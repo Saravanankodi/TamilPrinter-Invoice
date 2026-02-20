@@ -15,7 +15,7 @@ const Sidebar = () => {
   ]
   return (
     <>
-    <section className="w-65 h-screen p-2 bg-white text-black ">
+    <section className=" sticky w-65 h-screen p-2 bg-white text-black">
         <aside className=" relative w-full flex items-center justify-center gap-2">
             <div className="w-8 h-fit flex items-center justify-center bg-[#0496ff] rounded-md ">
                 <Print className='w-full h-full text-white block m-auto p-1'/>

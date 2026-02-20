@@ -2,14 +2,13 @@ import React from "react";
 
 type Props = {
   children: React.ReactNode;
+  className?:string;
   onClick?: ()=> void;
 };
 
-export default function Table({ children }: Props) {
+export default function Table({ children,className }: Props) {
   return (
-    <div className="overflow-y-auto rounded-md">
-      <table className="min-w-full bg-white border-collapse rounded-md">{children}</table>
-    </div>
+      <table className={`min-w-full bg-white border-collapse rounded-md ${className} overflow-scroll`}>{children}</table>
   );
 }
 

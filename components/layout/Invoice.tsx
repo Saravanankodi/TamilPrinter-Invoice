@@ -52,7 +52,7 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData,onSaved}) => {
             
   return (
     <>
-    <section className="w-full h-full rounded-lg bg-white p-1 ">
+    <section className="w-full h-full relative rounded-lg bg-white p-1 ">
         <header className="w-full h-auto border-b border-b-[#00000014] p-4">
             <aside className="flex gap-4">
                 <h1 className="text-sm">
@@ -70,7 +70,7 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData,onSaved}) => {
                 </p>
                 <div className="w-auto">
                     <p className="text-sm">
-                        {currentTime.toLocaleDateString()}
+                        {new Date().toLocaleDateString("en-IN")}
                     </p>
                     <p className="text-sm">
                         {currentTime.toLocaleTimeString()}
@@ -83,44 +83,52 @@ const Invoice: React.FC<InvoiceProps> = ({customerData,billData,onSaved}) => {
                 <Lable Name='Email' value={customerData.mail}/>
                 <Lable Name='Ref' value={customerData.ref}/>
             </div>
-            <section className='text-xs space-y-2'>
-                <Table>
-                <tbody>
-                    <Table.Row>
-                        <Table.Th>Item</Table.Th>
-                        <Table.Th>Qty</Table.Th>
-                        <Table.Th>Rate</Table.Th>
-                        <Table.Th>Amount</Table.Th>
-                    </Table.Row>
-                    {Array.isArray(billData) && billData.map((data)=>(
-                        <Table.Row key={data.id}>
-                            <Table.Cell>
-                                {data.service}
-                            </Table.Cell>
-                            <Table.Cell>
-                                {data.quantity}
-                            </Table.Cell>
-                            <Table.Cell>
-                                {data.rate}
-                            </Table.Cell>
-                            <Table.Cell>
-                                {data.quantity * data.paper * data.rate}
-                            </Table.Cell>
-                        </Table.Row>
-                    ))}                    
-                </tbody>
-                </Table>
+            <section className='h-full text-xs space-y-2'>
+                <main className="w-full h-full flex-1">
+                    <Table>
+                        <tbody>
+                            <Table.Row>
+                                <Table.Th>Item</Table.Th>
+                                <Table.Th>Qty</Table.Th>
+                                <Table.Th>Paper</Table.Th>
+                                <Table.Th>Rate</Table.Th>
+                                <Table.Th>Amount</Table.Th>
+                            </Table.Row>
+                            {Array.isArray(billData) && billData.map((data)=>(
+                                <Table.Row key={data.id}>
+                                    <Table.Cell>
+                                        {data.service}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {data.quantity}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {data.paper}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {data.rate}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {data.quantity * data.paper * data.rate}
+                                    </Table.Cell>
+                                </Table.Row>
+                            ))}                    
+                        </tbody>
+                    </Table>
+                </main>
 
-                <RadioGroup value={value} onValueChange={setValue} name='serviceType' className='w-full h-auto flex items-center justify-center gap-2 text-sm' >
-                    <RadioGroup.Item value='Cash' label='Cash' icon={<Cash/>} />
-                    <RadioGroup.Item value='UPI / QR' label='UPI / QR' icon={<Upi/>} />
-                    <RadioGroup.Item value='Card' label='Card' icon={<Card/>}/>
-                    <RadioGroup.Item value='Pending' label='Pending'/>
-                </RadioGroup>
+                <aside className=" absolute bottom-0 flex flex-col gap-3 justify-center items-center">
+                    <RadioGroup value={value} onValueChange={setValue} name='serviceType' className='w-full h-auto flex items-center justify-center gap-2 text-sm' >
+                        <RadioGroup.Item value='Cash' label='Cash' icon={<Cash/>} />
+                        <RadioGroup.Item value='UPI' label='UPI / QR' icon={<Upi/>} />
+                        <RadioGroup.Item value='Card' label='Card' icon={<Card/>}/>
+                        <RadioGroup.Item value='Pending' label='Pending'/>
+                    </RadioGroup>
 
-                <Button variant='primary' icon={<Print className='w-6 h-6'/>} onClick={saveBill} className='w-4/5'>
-                    Generate & Print Invoice
-                </Button>
+                    <Button variant='primary' icon={<Print className='w-6 h-6'/>} onClick={saveBill} className='w-4/5'>
+                        Generate & Print Invoice
+                    </Button>
+                </aside>
             </section>
         </main>
     </section>

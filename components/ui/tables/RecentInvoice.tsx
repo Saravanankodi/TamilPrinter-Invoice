@@ -22,15 +22,15 @@ const RecentInvoice = () => {
       
   return (
     <>
-    <section className="w-full h-full p-2">
+    <section className="w-full h-full col-span-5 row-span-4 col-start-1 row-start-1 bg-white rounded-md flex flex-col">
         <header className="w-full flex items-center justify-between px-1 py-2 border-b border-[#00000014]">
             <h1 className="text-lg">Recent Invoices</h1>
             <Button variant="outline" onClick={() => router.push("/invoice")} >
                 View All
             </Button>
         </header>
-        <main className="w-full">
-            <Table>
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-2">
+            <Table >
                 <tbody>
                     <Table.Row>
                         <Table.Cell>
@@ -55,13 +55,13 @@ const RecentInvoice = () => {
                     {bills.map((bill) => (
                 <Table.Row key={bill.id} onClick={() => router.push(`/invoice/${bill.id}`)}>
                     <Table.Cell>{bill.bill_number}</Table.Cell>
-                    <Table.Cell>{bill.name}</Table.Cell>
+                    <Table.Cell>{bill.customer_name}</Table.Cell>
                     <Table.Cell>
                     {new Date(bill.created_at).toLocaleString()}
                     </Table.Cell>
                     <Table.Cell>₹ {bill.total}</Table.Cell>
-                    <Table.Cell>Cash</Table.Cell>
-                    <Table.Cell>Paid</Table.Cell>
+                    <Table.Cell>{bill.payment_method}</Table.Cell>
+                    <Table.Cell>{bill.status}</Table.Cell>
                 </Table.Row>
                 ))}
                 </tbody>

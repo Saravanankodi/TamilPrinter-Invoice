@@ -42,37 +42,57 @@ const electron_2 = require("electron");
 const database_1 = require("./database");
 electron_2.ipcMain.handle("save-bill", (_, payload) => {
     const { customer, items, paymentMethod } = payload;
-    // 1. Save customer
-    const customerStmt = database_1.db.prepare(`
-    INSERT INTO customers (name, mail, phone, ref)
-    VALUES (?, ?, ?, ?)
-  `);
-    const customerResult = customerStmt.run(customer.name, customer.mail, customer.phone, customer.ref);
-    const customerId = customerResult.lastInsertRowid;
-    // 2. Save bill
-    const total = items.reduce((sum, item) => sum + item.quantity * item.rate, 0);
-    const billStmt = database_1.db.prepare(`
-    INSERT INTO bills (customer_id, bill_number, total, created_at)
-    VALUES (?, ?, ?, ?)
-  `);
-    const billNumber = "INV-" + Date.now();
-    const billResult = billStmt.run(customerId, billNumber, total, new Date().toISOString());
-    const billId = billResult.lastInsertRowid;
-    // 3. Save items
-    const itemStmt = database_1.db.prepare(`
-    INSERT INTO bill_items
-    (bill_id, service, quantity, paper, page, rate, note)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `);
-    for (const item of items) {
-        itemStmt.run(billId, item.service, item.quantity, item.paper, item.page, item.rate, item.note);
+    if (!customer?.phone || !items?.length) {
+        throw new Error("Invalid bill data");
     }
-    // 4. Save payment
-    database_1.db.prepare(`
-    INSERT INTO payments (bill_id, method, amount)
-    VALUES (?, ?, ?)
-  `).run(billId, paymentMethod, total);
-    return { success: true, billNumber };
+    const transaction = database_1.db.transaction(() => {
+        // 1️⃣ Find or create customer
+        const existingCustomer = database_1.db
+            .prepare(`SELECT id FROM customers WHERE phone = ?`)
+            .get(customer.phone);
+        let customerId;
+        if (existingCustomer) {
+            customerId = existingCustomer.id;
+        }
+        else {
+            const insertCustomer = database_1.db.prepare(`
+        INSERT INTO customers (name, mail, phone, ref)
+        VALUES (?, ?, ?, ?)
+      `);
+            const result = insertCustomer.run(customer.name, customer.mail, customer.phone, customer.ref);
+            customerId = Number(result.lastInsertRowid);
+        }
+        // 2️⃣ Calculate total
+        const total = items.reduce((sum, item) => {
+            const quantity = Number(item.quantity) || 0;
+            const paper = Number(item.paper) || 0;
+            const rate = Number(item.rate) || 0;
+            return sum + quantity * paper * rate;
+        }, 0);
+        // 3️⃣ Insert bill
+        const billNumber = "INV-" + Date.now();
+        const billResult = database_1.db.prepare(`
+      INSERT INTO bills (customer_id, bill_number, total, created_at)
+      VALUES (?, ?, ?, ?)
+    `).run(customerId, billNumber, total, new Date().toISOString());
+        const billId = Number(billResult.lastInsertRowid);
+        // 4️⃣ Insert items
+        const itemStmt = database_1.db.prepare(`
+      INSERT INTO bill_items
+      (bill_id, service, quantity, paper, page, rate, note)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
+        for (const item of items) {
+            itemStmt.run(billId, item.service, item.quantity, item.paper, item.page, item.rate, item.note);
+        }
+        // 5️⃣ Insert payment
+        database_1.db.prepare(`
+      INSERT INTO payments (bill_id, method, amount)
+      VALUES (?, ?, ?)
+    `).run(billId, paymentMethod, total);
+        return { success: true, billNumber };
+    });
+    return transaction();
 });
 electron_2.ipcMain.handle("get-bill-details", (_, billId) => {
     const stmt = database_1.db.prepare(`
@@ -121,7 +141,6 @@ electron_2.ipcMain.handle("get-bills", () => {
     });
     return billsWithStatus;
 });
-let mainWindow;
 function createWindow() {
     const mainWindow = new electron_1.BrowserWindow({
         width: 1200,

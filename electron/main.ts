@@ -16,70 +16,89 @@ type BillRow = {
 ipcMain.handle("save-bill", (_, payload) => {
   const { customer, items, paymentMethod } = payload;
 
-  // 1. Save customer
-  const customerStmt = db.prepare(`
-    INSERT INTO customers (name, mail, phone, ref)
-    VALUES (?, ?, ?, ?)
-  `);
-
-  const customerResult = customerStmt.run(
-    customer.name,
-    customer.mail,
-    customer.phone,
-    customer.ref
-  );
-
-  const customerId = customerResult.lastInsertRowid;
-
-  // 2. Save bill
-  const total = items.reduce(
-    (sum: number, item: any) =>
-      sum + item.quantity * item.rate,
-    0
-  );
-
-  const billStmt = db.prepare(`
-    INSERT INTO bills (customer_id, bill_number, total, created_at)
-    VALUES (?, ?, ?, ?)
-  `);
-
-  const billNumber = "INV-" + Date.now();
-
-  const billResult = billStmt.run(
-    customerId,
-    billNumber,
-    total,
-    new Date().toISOString()
-  );
-
-  const billId = billResult.lastInsertRowid;
-
-  // 3. Save items
-  const itemStmt = db.prepare(`
-    INSERT INTO bill_items
-    (bill_id, service, quantity, paper, page, rate, note)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `);
-
-  for (const item of items) {
-    itemStmt.run(
-      billId,
-      item.service,
-      item.quantity,
-      item.paper,
-      item.page,
-      item.rate,
-      item.note
-    );
+  if (!customer?.phone || !items?.length) {
+    throw new Error("Invalid bill data");
   }
 
-  // 4. Save payment
-  db.prepare(`
-    INSERT INTO payments (bill_id, method, amount)
-    VALUES (?, ?, ?)
-  `).run(billId, paymentMethod, total);
+  const transaction = db.transaction(() => {
 
-  return { success: true, billNumber };
+    // 1️⃣ Find or create customer
+    const existingCustomer = db
+      .prepare(`SELECT id FROM customers WHERE phone = ?`)
+      .get(customer.phone) as { id: number } | undefined;
+
+    let customerId: number;
+
+    if (existingCustomer) {
+      customerId = existingCustomer.id;
+    } else {
+      const insertCustomer = db.prepare(`
+        INSERT INTO customers (name, mail, phone, ref)
+        VALUES (?, ?, ?, ?)
+      `);
+
+      const result = insertCustomer.run(
+        customer.name,
+        customer.mail,
+        customer.phone,
+        customer.ref
+      );
+
+      customerId = Number(result.lastInsertRowid);
+    }
+
+    // 2️⃣ Calculate total
+    const total = items.reduce((sum: number, item: any) => {
+      const quantity = Number(item.quantity) || 0;
+      const paper = Number(item.paper) || 0;
+      const rate = Number(item.rate) || 0;
+      return sum + quantity * paper * rate;
+    }, 0);
+
+    // 3️⃣ Insert bill
+    const billNumber = "INV-" + Date.now();
+
+    const billResult = db.prepare(`
+      INSERT INTO bills (customer_id, bill_number, total, created_at)
+      VALUES (?, ?, ?, ?)
+    `).run(
+      customerId,
+      billNumber,
+      total,
+      new Date().toISOString()
+    );
+
+    const billId = Number(billResult.lastInsertRowid);
+
+    // 4️⃣ Insert items
+    const itemStmt = db.prepare(`
+      INSERT INTO bill_items
+      (bill_id, service, quantity, paper, page, rate, note)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    for (const item of items) {
+      itemStmt.run(
+        billId,
+        item.service,
+        item.quantity,
+        item.paper,
+        item.page,
+        item.rate,
+        item.note
+      );
+    }
+
+    // 5️⃣ Insert payment
+    db.prepare(`
+      INSERT INTO payments (bill_id, method, amount)
+      VALUES (?, ?, ?)
+    `).run(billId, paymentMethod, total);
+
+    return { success: true, billNumber };
+  });
+
+  return transaction();
 });
 
 ipcMain.handle("get-bill-details", (_, billId: number) => {
@@ -144,11 +163,35 @@ ipcMain.handle("get-bills", () => {
   return billsWithStatus;
 });
 
+ipcMain.handle("get-customers", () => {
+  return db
+    .prepare("SELECT * FROM customers ORDER BY created_at DESC")
+    .all();
+});
 
+ipcMain.handle("add-customer", (_, customer) => {
+  const existing = db
+    .prepare("SELECT id FROM customers WHERE phone = ?")
+    .get(customer.phone);
 
+  if (existing) {
+    throw new Error("Customer already exists with this phone");
+  }
 
+  const stmt = db.prepare(`
+    INSERT INTO customers (name, mail, phone, ref)
+    VALUES (?, ?, ?, ?)
+  `);
 
-let mainWindow: BrowserWindow;
+  const result = stmt.run(
+    customer.name,
+    customer.mail,
+    customer.phone,
+    customer.ref
+  );
+
+  return { id: result.lastInsertRowid };
+});
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
